@@ -2,6 +2,8 @@
 var width = 1000;
 var height = 500;
 
+const c = "chlorides";
+const ds = "density"
 
 
 //Import the data set and isolate the density and chlorides
@@ -19,17 +21,20 @@ d3.csv("WhiteWineCSV.csv", (data) => {
     });
 
 
-    //Make A Total Data Object that hold both of the x and y arrays.
-    let totalData = {x: chlorides,
-                     y: density};
-    console.log(totalData.x);
+    //This returns an object called reData that holds an array of objects with x and y. We use this to plot the circle
+    let reData = data.map((d) => {
+        return {
+            x: parseFloat(d[c]),
+            y: parseFloat(d[ds])};
+    });
 
+    console.log(d3.min(chlorides));
 
     // Create the X and Y Axis
     var svg = d3.select("svg").attr("height", height).attr("width", width);
 
     //Create The Scales
-    let xScale = d3.scaleLinear().domain([d3.min(chlorides), d3.max(chlorides)]).range([0, width - 100]);
+    let xScale = d3.scaleLinear().domain([d3.min(chlorides)-0.2, d3.max(chlorides)]).range([0, width - 100]);
 
     let yScale = d3.scaleLinear().domain([d3.min(density), d3.max(density)]).range([height/2, 0]);
 
@@ -43,10 +48,6 @@ d3.csv("WhiteWineCSV.csv", (data) => {
 
     let xAxisTranslate = height/2 + 10;
     svg.append("g").attr("transform","translate(60, "+ xAxisTranslate + " )").call(x_Axis);
-
-    //Map Data
-    //let xMap = function(){return xScale(chlorides[])};
-    //let yMap = ()=> {return yScale(density[60])};
 
 
     //Add Text to the Side
@@ -66,15 +67,14 @@ d3.csv("WhiteWineCSV.csv", (data) => {
         .text("Chloride");
 
     //Plot the Circle
-    let circles = svg.selectAll('circle').data(data);
+    let circles = svg.selectAll('circle').data(reData);
 
         circles.enter()
             .append('circle')
-            .attr("r", 1.5)
+            .attr("r", 3)
             .attr("class", "dot")
-            //.attr("cx",)
-            //.attr("cy",)
-            //.merge(circles);
-
+            .attr('cx', (d) => xScale(d.x))
+            .attr('cy', (d) => yScale(d.y))
+            .merge(circles);
 
 });
