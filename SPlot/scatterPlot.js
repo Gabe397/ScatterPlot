@@ -28,15 +28,15 @@ d3.csv("WhiteWineCSV.csv", (data) => {
             y: parseFloat(d[ds])};
     });
 
-    console.log(d3.min(chlorides));
+    console.log(d3.min(density));
 
     // Create the X and Y Axis
     var svg = d3.select("svg").attr("height", height).attr("width", width);
 
     //Create The Scales
-    let xScale = d3.scaleLinear().domain([d3.min(chlorides)-0.2, d3.max(chlorides)]).range([0, width - 100]);
+    let xScale = d3.scaleLinear().domain([d3.min(chlorides)-0.09, d3.max(chlorides)]).range([0, width - 100]);
 
-    let yScale = d3.scaleLinear().domain([d3.min(density), d3.max(density)]).range([height/2, 0]);
+    let yScale = d3.scaleLinear().domain([d3.min(density)-0.01, d3.max(density)]).range([height/2, 0]);
 
     //Create the Line
     let x_Axis = d3.axisBottom().scale(xScale);
@@ -71,8 +71,9 @@ d3.csv("WhiteWineCSV.csv", (data) => {
 
         circles.enter()
             .append('circle')
-            .attr("r", 3)
+            .attr("r", 0.8)
             .attr("class", "dot")
+            .style('fill-opacity',0.3)
             .attr('cx', (d) => xScale(d.x))
             .attr('cy', (d) => yScale(d.y))
             .merge(circles);
