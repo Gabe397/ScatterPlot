@@ -1,17 +1,17 @@
 // Instantiate the size of the SVG
-var width = 800;
+var width = 1000;
 var height = 500;
 
 //Import the data set and isolate the density and chlorides
 d3.csv("WhiteWineCSV.csv", (data) => {
 
-    //Get the chlorides
+    //Get the chlorides X Value
     let chlorides = data.map((x) => {
         return parseFloat(x.chlorides)
     });
 
 
-    //Get the Density
+    //Get the Density Y Value
     let density = data.map((y) => {
         return parseFloat(y.density)
     });
@@ -31,9 +31,25 @@ d3.csv("WhiteWineCSV.csv", (data) => {
     let y_Axis = d3.axisLeft().scale(yScale);
 
     //Insert Axis into the SVG
-    svg.append("g").attr("transform","translate(50,10)").call(y_Axis);
+    svg.append("g").attr("transform","translate(60,10)").call(y_Axis);
 
     let xAxisTranslate = height/2 + 10;
-    svg.append("g").attr("transform","translate(50, "+ xAxisTranslate + " )").call(x_Axis);
+    svg.append("g").attr("transform","translate(60, "+ xAxisTranslate + " )").call(x_Axis);
+
+
+    //Add Text to the Side
+
+    //Y Axis
+    svg.append("text")
+        .style("font-size","20px")
+        .attr("text-anchor","middle")
+        .attr("transform", "translate(20,120), rotate(-90)")
+        .text("Density");
+
+    svg.append("text")
+        .style("font-size","20px")
+        .attr("text-anchor","middle")
+        .attr("transform", "translate(500,300)")
+        .text("Chloride");
 
 });
