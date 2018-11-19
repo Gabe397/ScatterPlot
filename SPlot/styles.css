@@ -2,5 +2,10 @@
     left:100px;
     top: 50px;
     position: relative;
-    padding:20px;
+
+    padding-top: 100px;
+}
+
+circle{
+    fill: cornflowerblue;
 }
